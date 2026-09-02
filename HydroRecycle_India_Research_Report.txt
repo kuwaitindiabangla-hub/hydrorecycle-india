@@ -1,0 +1,63 @@
+HYDRORECYCLE INDIA — RESEARCH EDITION
+A Mathematics, Hydraulic Engineering and Data-Science Exhibition Project
+
+ABSTRACT
+This project develops a research-style analytical companion for a syringe-based hydraulic waste-recycling prototype. The physical prototype demonstrates mechanical principles, while the software layer applies mathematics and Python to quantify waste collection, processing and compression performance. Source-based state-level municipal solid-waste figures are analysed alongside clearly labelled educational model values. The system computes efficiency metrics, descriptive statistics, rankings, correlations and hydraulic calculations.
+
+1. RESEARCH QUESTION
+How can mathematical modelling and data analysis be used to evaluate a hydraulic waste-recycling concept and identify measurable opportunities for improvement?
+
+2. HYPOTHESIS
+If hydraulic compression is improved while processing time is controlled, the system should reduce final material volume and improve throughput. State-level waste data can also reveal substantial variation in collection and processing performance.
+
+3. OBJECTIVES
+• Build a reproducible data-analysis workflow in Python.
+• Convert raw state data into meaningful efficiency indicators.
+• Quantify compression and throughput using experimental measurements.
+• Apply statistical methods rather than relying only on visual inspection.
+• Connect syringe geometry and force to hydraulic pressure.
+• Present findings through an interactive analytical dashboard.
+
+4. MATHEMATICAL MODEL
+Collection efficiency = collected waste / generated waste × 100.
+Processing efficiency = processed waste / collected waste × 100.
+Compression efficiency = (initial volume − final volume) / initial volume × 100.
+Throughput = mass / processing time.
+Pressure = force / piston area.
+Hydraulic equilibrium: F1/A1 = F2/A2.
+Pearson correlation r measures the strength and direction of a linear association.
+
+5. EXPERIMENTAL PROTOCOL
+For each trial, record initial volume, final volume, mass and processing time. Repeat at least five times under the same setup. Calculate mean and sample standard deviation. Report the coefficient of variation (CV = standard deviation / mean × 100) to describe repeatability. Do not replace measured values with assumptions.
+
+6. DATA INTEGRITY
+The state dataset is intended for educational analysis and is based on published 2021–22 government-reported figures. Hydraulic columns marked with an asterisk in the dashboard are simulated placeholders. They must be replaced with the student's own measurements before being described as experimental results. This separation between sourced, measured and simulated data is a core research-quality practice.
+
+7. STATISTICAL ANALYSIS
+The dashboard supports:
+• mean and median;
+• standard deviation;
+• range;
+• ranking;
+• Pearson correlation;
+• comparative efficiency analysis.
+A correlation does not prove causation. It only quantifies linear association.
+
+8. HYDRAULIC ENGINEERING
+A syringe system transmits pressure through an approximately incompressible fluid. For an ideal hydraulic system, equal pressure acts through connected fluid. A larger output piston area can therefore produce a larger output force for the same pressure. Real systems experience friction, leakage and deformation, so experimental results may differ from the ideal equation.
+
+9. LIMITATIONS
+• Municipal waste statistics and definitions can change between reporting years.
+• State figures are not direct measurements of this prototype.
+• Cardboard and syringe prototypes do not reproduce industrial recycling machinery.
+• Ideal hydraulic equations ignore practical losses.
+• Simulated educational values must not be presented as measured performance.
+
+10. FUTURE SCOPE
+Add repeated experimental trials, force sensors, pressure sensors, digital weighing, image-based volume estimation, regression models, uncertainty propagation and a larger multi-year dataset. A future version could compare several hydraulic configurations and test whether geometry significantly changes compression efficiency.
+
+11. CONCLUSION
+HydroRecycle India demonstrates that a physical engineering prototype becomes more scientifically informative when paired with a transparent mathematical model. The project combines engineering, statistics and Python into one reproducible workflow: measure → calculate → validate → visualise → interpret → improve.
+
+SOURCES
+Primary context: Government of India / CPCB state-wise municipal solid waste reporting for 2021–22. Current national context should be checked against the latest Ministry/CPCB publications before being quoted in a presentation.

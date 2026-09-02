@@ -36,15 +36,46 @@ function pearson(x,y){
   for(let i=0;i<x.length;i++){let a=x[i]-mx,b=y[i]-my;n+=a*b;d1+=a*a;d2+=b*b;}
   return n/Math.sqrt(d1*d2);
 }
-function drawBar(canvas,items,key1,key2){
-  const c=canvas,ctx=c.getContext("2d"),w=c.clientWidth||600,h=300,dpr=devicePixelRatio||1;
-  c.width=w*dpr;c.height=h*dpr;ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
-  const max=Math.max(...items.map(x=>+x[key1])),bw=Math.max(12,(w-50)/items.length-8);
-  items.forEach((x,i)=>{
-    const val=+x[key1],bh=(h-55)*val/max,xx=35+i*(bw+8),yy=h-35-bh;
-    ctx.fillStyle="#68e0ad";ctx.fillRect(xx,yy,bw,bh);
-    ctx.fillStyle="#8fa99f";ctx.font="10px Segoe UI";ctx.save();
-    ctx.translate(xx+bw/2,h-10);ctx.rotate(-.65);ctx.textAlign="right";ctx.fillText(x[key2],0,0);ctx.restore();
+function drawBar(canvas, items, key1, key2) {
+  const c = canvas;
+  const ctx = c.getContext("2d");
+  
+  // Use offsetWidth / clientWidth or default to 600
+  const w = c.parentElement ? c.parentElement.clientWidth : (c.clientWidth || 600);
+  const h = 300; 
+  const dpr = window.devicePixelRatio || 1;
+
+  // Set physical display size via CSS styling to lock height
+  c.style.width = w + "px";
+  c.style.height = h + "px";
+
+  // Set internal canvas resolution
+  c.width = w * dpr;
+  c.height = h * dpr;
+
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+
+  const max = Math.max(...items.map(x => +x[key1] || 0));
+  const bw = Math.max(12, (w - 50) / items.length - 8);
+
+  items.forEach((x, i) => {
+    const val = +x[key1] || 0;
+    const bh = max > 0 ? (h - 55) * val / max : 0;
+    const xx = 35 + i * (bw + 8);
+    const yy = h - 35 - bh;
+
+    ctx.fillStyle = "#68e0ad";
+    ctx.fillRect(xx, yy, bw, bh);
+
+    ctx.fillStyle = "#8fa99f";
+    ctx.font = "10px Segoe UI";
+    ctx.save();
+    ctx.translate(xx + bw / 2, h - 10);
+    ctx.rotate(-0.65);
+    ctx.textAlign = "right";
+    ctx.fillText(x[key2], 0, 0);
+    ctx.restore();
   });
 }
 function renderRanks(){

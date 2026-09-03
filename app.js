@@ -36,47 +36,95 @@ function pearson(x,y){
   for(let i=0;i<x.length;i++){let a=x[i]-mx,b=y[i]-my;n+=a*b;d1+=a*a;d2+=b*b;}
   return n/Math.sqrt(d1*d2);
 }
+
 function drawBar(canvas, items, key1, key2) {
-  const c = canvas;
-  const ctx = c.getContext("2d");
-  
-  // Use offsetWidth / clientWidth or default to 600
-  const w = c.parentElement ? c.parentElement.clientWidth : (c.clientWidth || 600);
-  const h = 300; 
-  const dpr = window.devicePixelRatio || 1;
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
 
-  // Set physical display size via CSS styling to lock height
-  c.style.width = w + "px";
-  c.style.height = h + "px";
+    const parent = canvas.parentElement;
+    const w = Math.max(420, parent ? parent.clientWidth : 600);
 
-  // Set internal canvas resolution
-  c.width = w * dpr;
-  c.height = h * dpr;
+    // Horizontal chart: one readable row per state
+    const rowHeight = 38;
+    const topPadding = 12;
+    const bottomPadding = 12;
+    const h = topPadding + items.length * rowHeight + bottomPadding;
 
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, w, h);
+    canvas.style.width = "100%";
+    canvas.style.height = h + "px";
 
-  const max = Math.max(...items.map(x => +x[key1] || 0));
-  const bw = Math.max(12, (w - 50) / items.length - 8);
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
 
-  items.forEach((x, i) => {
-    const val = +x[key1] || 0;
-    const bh = max > 0 ? (h - 55) * val / max : 0;
-    const xx = 35 + i * (bw + 8);
-    const yy = h - 35 - bh;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
 
-    ctx.fillStyle = "#68e0ad";
-    ctx.fillRect(xx, yy, bw, bh);
+    const values = items.map(x => Number(x[key1]) || 0);
+    const max = Math.max(...values, 1);
 
-    ctx.fillStyle = "#8fa99f";
-    ctx.font = "10px Segoe UI";
-    ctx.save();
-    ctx.translate(xx + bw / 2, h - 10);
-    ctx.rotate(-0.65);
-    ctx.textAlign = "right";
-    ctx.fillText(x[key2], 0, 0);
-    ctx.restore();
-  });
+    // Space reserved for state names
+    const labelWidth = Math.min(155, Math.max(105, w * 0.25));
+    const valueWidth = 65;
+    const barWidth = Math.max(100, w - labelWidth - valueWidth - 20);
+
+    ctx.font = "12px Segoe UI";
+    ctx.textBaseline = "middle";
+
+    items.forEach((item, i) => {
+        const value = Number(item[key1]) || 0;
+        const y = topPadding + i * rowHeight;
+
+        // State label
+        ctx.fillStyle = "#8fa99f";
+        ctx.textAlign = "right";
+
+        let label = String(item[key2]);
+
+        if (label.length > 20) {
+            label = label.substring(0, 19) + "…";
+        }
+
+        ctx.fillText(
+            label,
+            labelWidth - 10,
+            y + 12
+        );
+
+        // Bar background
+        ctx.fillStyle = "rgba(104,224,173,0.10)";
+        ctx.fillRect(
+            labelWidth,
+            y,
+            barWidth,
+            24
+        );
+
+        // Actual bar
+        const width = (value / max) * barWidth;
+
+        ctx.fillStyle = "#68e0ad";
+        ctx.fillRect(
+            labelWidth,
+            y,
+            Math.max(2, width),
+            24
+        );
+
+        // Value
+        ctx.fillStyle = "#d8eee7";
+        ctx.textAlign = "left";
+
+        const displayValue =
+            key1.includes("efficiency")
+                ? value.toFixed(1) + "%"
+                : value.toLocaleString();
+
+        ctx.fillText(
+            displayValue,
+            labelWidth + width + 8,
+            y + 12
+        );
+    });
 }
 function renderRanks(){
   const p=DATA.slice().sort((a,b)=>b.processing_efficiency_pct-a.processing_efficiency_pct).slice(0,5);

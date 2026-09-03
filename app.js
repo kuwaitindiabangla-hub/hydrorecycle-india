@@ -44,7 +44,6 @@ function drawBar(canvas, items, key1, key2) {
     const parent = canvas.parentElement;
     const w = Math.max(420, parent ? parent.clientWidth : 600);
 
-    // Horizontal chart: one readable row per state
     const rowHeight = 38;
     const topPadding = 12;
     const bottomPadding = 12;
@@ -62,10 +61,16 @@ function drawBar(canvas, items, key1, key2) {
     const values = items.map(x => Number(x[key1]) || 0);
     const max = Math.max(...values, 1);
 
-    // Space reserved for state names
-    const labelWidth = Math.min(155, Math.max(105, w * 0.25));
+    const labelWidth = Math.min(
+        155,
+        Math.max(105, w * 0.25)
+    );
+
     const valueWidth = 65;
-    const barWidth = Math.max(100, w - labelWidth - valueWidth - 20);
+    const barWidth = Math.max(
+        100,
+        w - labelWidth - valueWidth - 20
+    );
 
     ctx.font = "12px Segoe UI";
     ctx.textBaseline = "middle";
@@ -74,7 +79,7 @@ function drawBar(canvas, items, key1, key2) {
         const value = Number(item[key1]) || 0;
         const y = topPadding + i * rowHeight;
 
-        // State label
+        // State name
         ctx.fillStyle = "#8fa99f";
         ctx.textAlign = "right";
 
@@ -99,7 +104,7 @@ function drawBar(canvas, items, key1, key2) {
             24
         );
 
-        // Actual bar
+        // Bar
         const width = (value / max) * barWidth;
 
         ctx.fillStyle = "#68e0ad";
